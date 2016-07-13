@@ -1,0 +1,33 @@
+extends ../layout
+block page
+	- var menu = "edit"
+block content
+		h2 Edit Voucher
+		div= error
+		div.col-md-8
+			form(action="/api/vouchers/" + voucher.code, method="POST", role="form")
+				.form-group
+					label(for="code") Code
+					input#code.form-control(name="code", type="text", placeholder="Code", value=voucher.code)
+				.form-group
+					label(for="central")
+						|Central
+						input#central.form-control(name="central", type="checkbox", checked=(voucher.central))
+				.form-group
+					label(for="usageLimit") Usage limit
+					input#usageLimit.form-control(name="usageLimit", type="number", placeholder="Usage limit", min="-1", max="1", value=voucher.usageLimit)
+				.form-group
+					label(for="startTimestamp") Start timestamp
+					input#startTimestamp.form-control(name="startTimestamp", type="date", placeholder="Start timestamp", value=voucher.startTimestamp)
+				.form-group
+					label(for="endTimestamp") End timestamp
+					input#endTimestamp.form-control(name="endTimestamp", type="date", placeholder="End timestamp", value=voucher.endTimestamp)
+				.form-group
+					label(for="username") Username
+					input#username.form-control(name="username", type="text", placeholder="Username", value=voucher.username)
+				.form-group
+					label(for="tradable")
+						|Tradable
+						input#tradable.form-control(name="tradable", type="checkbox", checked=(voucher.tradable))
+				p
+					button.btn.btn-success(type="submit") Submit

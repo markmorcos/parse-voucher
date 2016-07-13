@@ -1,0 +1,28 @@
+extends layout
+block page
+	- var menu = 'admin'
+block content
+	div.admin
+		if (vouchers.length === 0 )
+			p
+				| Nothing to display. Add a new 
+				a(href="/post") voucher
+				|.
+		else
+			
+			table.table.table-stripped
+				thead
+					tr
+						th(colspan="2") Actions
+						th Post Title
+				tbody
+					each voucher, index in vouchers
+						tr(data-id=voucher._id, class=(!voucher.published)?'unpublished':'')
+							td.action
+								button.btn.btn-danger.btn-sm.remove(type="button")
+									span.glyphicon.glyphicon-remove(title="Remove")
+							td.action
+								button.btn.btn-default.btn-sm.publish(type="button")
+									span.glyphicon(class=(voucher.published)?"glyphicon-pause":"glyphicon-play", title=(voucher.published)?"Unpublish":"Publish")
+							td= voucher.title
+			script(type="text/javascript", src="js/admin.js")

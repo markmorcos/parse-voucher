@@ -1,0 +1,10 @@
+[{
+	"code": "christmas2016",
+	"central": true,
+	"usageLimit": -1,
+	"startTimestamp": "2016-07-01 00:00:00",
+	"endTimestamp": "2016-08-01 00:00:00",
+	"username": "",
+	"tradable": false,
+	"characters": ["1040", "1041", "1042", "1043"]
+}]

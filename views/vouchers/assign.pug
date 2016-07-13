@@ -1,0 +1,13 @@
+extends ../layout
+block page
+	- var menu = 'assign'
+block content
+		h2 Assign Voucher
+		div= error
+		div.col-md-8
+			form(action="/api/vouchers/" + voucher.code + "/assign", method="POST", role="form")
+				.form-group
+					label(for="username") Username
+					input#username.form-control(name="username", type="text", placeholder="Username", value=voucher.username)
+				p
+					button.btn.btn-success(type="submit") Submit

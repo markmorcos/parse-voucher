@@ -1,0 +1,17 @@
+extends layout
+
+block page 
+	- var menu = "index"
+block content
+	if (vouchers.length === 0)
+		| No vouchers yet. 
+	else 
+		each voucher in vouchers
+			- voucher = voucher.toJSON()
+			div
+				h2
+					a(href="/vouchers/" + voucher.code)= voucher.code
+					a(href="/vouchers/" + voucher.code + "/edit")  Edit
+					a(href="/vouchers/" + voucher.code + "/assign")  Assign
+					form(action="/api/vouchers/" + voucher.code + "/delete", method="POST", role="form")
+						button.btn.btn-danger(type="submit") Delete

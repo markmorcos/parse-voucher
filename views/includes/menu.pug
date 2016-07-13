@@ -1,0 +1,12 @@
+.menu
+  ul.nav.nav-pills
+    li(class=(menu === 'index') ? 'active' : '')
+      a(href='/') Home
+    if Parse.User.current()
+      li(class=(menu === 'new') ? 'active' : '')
+        a(href="/vouchers/new") New
+      li
+        a(href="/logout") Logout
+    else
+      li(class=(menu === 'login') ? 'active' : '')
+        a(href='/login') Login
