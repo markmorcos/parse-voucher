@@ -3,8 +3,7 @@ block page
 	- var menu = "edit"
 block content
 		h2 Edit Voucher
-		div= error
-		div.col-md-8
+		div.col-md-4
 			form(action="/api/vouchers/" + voucher.code, method="POST", role="form")
 				.form-group
 					label(for="code") Code
@@ -29,5 +28,11 @@ block content
 					label(for="tradable")
 						|Tradable
 						input#tradable.form-control(name="tradable", type="checkbox", checked=(voucher.tradable))
+				.form-group
+					label(for="bundles")
+						|Bundles
+					select#bundles.form-control(name="characters[]", multiple="multiple")
+						each bundle in bundles
+							option(value=bundle.id, selected=(voucher.characters.indexOf(bundle.id.toString()) != -1))= bundle.name
 				p
 					button.btn.btn-success(type="submit") Submit

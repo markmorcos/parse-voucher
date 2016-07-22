@@ -3,9 +3,11 @@ block page
 	- var menu = "new"
 block content
 		h2 New Voucher
-		div= error
-		div.col-md-8
+		div.col-md-4
 			form(action="/api/vouchers", method="POST", role="form")
+				.form-group
+					label(for="count") Voucher Count
+					input#count.form-control(name="count", type="number", placeholder="Voucher Count", min="1", max="1000", value="1")
 				.form-group
 					label(for="code") Code
 					input#code.form-control(name="code", type="text", placeholder="Code")
@@ -15,7 +17,7 @@ block content
 						input#central.form-control(name="central", type="checkbox")
 				.form-group
 					label(for="usageLimit") Usage limit
-					input#usageLimit.form-control(name="usageLimit", type="number", placeholder="Usage limit", min="-1", max="1")
+					input#usageLimit.form-control(name="usageLimit", type="number", placeholder="Usage limit", min="-1", max="1", value="1")
 				.form-group
 					label(for="startTimestamp") Start timestamp
 					input#startTimestamp.form-control(name="startTimestamp", type="date", placeholder="Start timestamp")
@@ -32,8 +34,8 @@ block content
 				.form-group
 					label(for="bundles")
 						|Bundles
-						select#bundles.form-control(name="characters[]", multiple="true")
-							each bundle in bundles
-								option(value=bundle.id)= bundle.name
+					select#bundles.form-control(name="characters[]", multiple="multiple")
+						each bundle in bundles
+							option(value=bundle.id)= bundle.name
 				p
 					button.btn.btn-success(type="submit") Submit

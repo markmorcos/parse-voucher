@@ -8,10 +8,12 @@ block content
 	else 
 		each voucher in vouchers
 			- voucher = voucher.toJSON()
-			div
+			div.voucher
 				h2
 					a(href="/vouchers/" + voucher.code)= voucher.code
-					a(href="/vouchers/" + voucher.code + "/edit")  Edit
-					a(href="/vouchers/" + voucher.code + "/assign")  Assign
-					form(action="/api/vouchers/" + voucher.code + "/delete", method="POST", role="form")
+					|&nbsp;
+					a.btn.btn-primary(href="/vouchers/" + voucher.code + "/edit")  Edit
+					|&nbsp;
+					a.btn.btn-primary(href="/vouchers/" + voucher.code + "/assign")  Assign
+					form.navbar-right(action="/api/vouchers/" + voucher.code + "/delete", method="POST", role="form")
 						button.btn.btn-danger(type="submit") Delete

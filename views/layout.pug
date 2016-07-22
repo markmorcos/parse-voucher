@@ -3,11 +3,11 @@ html
 	head
 		title= appTitle
 		script(type="text/javascript", src="/js/jquery-2.0.3.min.js")
-		link(rel='stylesheet', href='/css/bootstrap-3.0.2/css/bootstrap.min.css')
-		link(rel='stylesheet', href='/css/bootstrap-3.0.2/css/bootstrap-theme.min.css')
-		link(rel='stylesheet', href='/css/style.css')
+		link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap.min.css")
+		link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap-theme.min.css")
+		link(rel="stylesheet", href="/css/style.css")
 		script(type="text/javascript", src="/css/bootstrap-3.0.2/js/bootstrap.min.js")
-		script(type="text/javascript", src="/js/blog.js")
+		script(type="text/javascript", src="/js/voucher.js")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 	body
 		#wrap
@@ -17,8 +17,6 @@ html
 				block header
 					div
 						include includes/menu
-				block alert
-					div.alert.alert-warning.hidden
 				.content
 					block content
 		block footer

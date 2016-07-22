@@ -34,3 +34,13 @@ td.action {
   height: 200px;
   width: 100%;
 }
+
+.voucher {
+  width: 768px;
+  padding: 10px;
+  background: #ddd;
+}
+
+.voucher:nth-child(2) {
+  background: #eee;
+}

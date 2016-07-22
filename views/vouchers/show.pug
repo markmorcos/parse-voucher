@@ -2,4 +2,5 @@ extends ../layout
 
 block content
 	h1= voucher.code
-	p= JSON.stringify(voucher)
+	img(src!="https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fwww.zoobe.com%2F%3Ftarget%3Dvoucher%26code%3D" + voucher.code)
+	p= "Code: " + voucher.code
