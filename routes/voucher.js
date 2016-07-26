@@ -28,7 +28,7 @@ exports.show = function(req, res, next) {
 	if (req.params.code) query.equalTo("code", req.params.code);
 	query.first({
 		success: function(voucher) {
-			res.render("vouchers/show", { voucher: voucher.toJSON() });
+			res.render("vouchers/show", { voucher: voucher.toJSON(), bundles: req.bundles });
 		}, error: function(error) {
 			return next(error);
 		}
@@ -40,7 +40,7 @@ exports.show = function(req, res, next) {
  */
 
 exports.new = function(req, res, next) {
-	if (!req.body.title) res.render("vouchers/new", { bundles: req.session.bundles });
+	if (!req.body.title) res.render("vouchers/new", { bundles: req.bundles });
 };
 
 /*
@@ -88,7 +88,7 @@ exports.edit = function(req, res, next) {
 	query.equalTo("code", req.params.code);
 	query.first({
 		success: function(voucher) {
-			res.render("vouchers/edit", { voucher: voucher.toJSON(), bundles: req.session.bundles });
+			res.render("vouchers/edit", { voucher: voucher.toJSON(), bundles: req.bundles });
 		}, error: function(error) {
 			return next(error);
 		}
@@ -101,6 +101,8 @@ exports.edit = function(req, res, next) {
 
 exports.update = function(req, res, next) {
 	if (!req.params.code) return next(new Error("No voucher code."));
+	req.body["characters[]"] = typeof req.body["characters[]"] === 'string' || req.body["characters[]"] instanceof String ? [req.body["characters[]"]] : req.body["characters[]"];
+	var code = voucher_codes.generate({ length: req.body.code ? 3 : 6, prefix: req.body.code ? req.body.code + "-" : "" }).pop();
 	var Voucher = Parse.Object.extend("Voucher");
 	var query = new Parse.Query(Voucher);
 	query.equalTo("deleted", false);
@@ -108,18 +110,19 @@ exports.update = function(req, res, next) {
 	query.first({
 		success: function(voucher) {
 			if (!voucher) return next(new Error("No voucher found."));
-			voucher.set("code", req.body.code == undefined ? voucher.get("code") : req.body.code);
-			voucher.set("central", req.body.central == undefined ? voucher.get("central") : req.body.central == undefined ? false : true);
-			voucher.set("usageLimit", req.body.usageLimit == undefined ? voucher.get("usageLimit") : Number(req.body.usageLimit));
-			voucher.set("startTimestamp", req.body.startTimestamp == undefined ? voucher.get("startTimestamp") : req.body.startTimestamp);
-			voucher.set("endTimestamp", req.body.endTimestamp == undefined ? voucher.get("endTimestamp") : req.body.endTimestamp);
-			voucher.set("characters", req.body["characters[]"] == undefined ? voucher.get("characters") : req.body["characters[]"]);
-			voucher.set("username", req.body.username == undefined ? voucher.get("username") : req.body.username);
-			voucher.set("tradable", req.body.tradable == undefined ? voucher.get("tradable") : req.body.tradable);
+			voucher.set("code", req.body.code == voucher.get("code") ? voucher.get("code") : code);
+			voucher.set("central", req.body.central == undefined ? false : true);
+			voucher.set("usageLimit", Number(req.body.usageLimit));
+			voucher.set("startTimestamp", req.body.startTimestamp);
+			voucher.set("endTimestamp", req.body.endTimestamp);
+			voucher.set("characters", req.body["characters[]"]);
+			voucher.set("username", req.body.username);
+			voucher.set("tradable", req.body.tradable == undefined ? false : true);
 			voucher.save(null, {
 				success: function(voucher) {
 			res.redirect("/vouchers/" + voucher.toJSON().code, 200, { voucher: voucher.toJSON(), error: "Voucher updated." });
 				}, error: function(voucher, error) {
+					console.log(error);
 					return next(error);
 				}
 			})

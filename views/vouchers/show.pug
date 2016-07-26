@@ -3,4 +3,10 @@ extends ../layout
 block content
 	h1= voucher.code
 	img(src!="https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fwww.zoobe.com%2F%3Ftarget%3Dvoucher%26code%3D" + voucher.code)
-	p= "Code: " + voucher.code
+	p= "Central: " + voucher.central
+	p= "Usage Limit: " + (voucher.usageLimit == -1 ? "Unlimited" : voucher.usageLimit)
+	p= voucher.startTimestamp ? "Start Timestamp: " + voucher.startTimestamp : ""
+	p= voucher.endTimestamp ? "End Timestamp: " + voucher.endTimestamp : ""
+	p= voucher.username ? "Username: " + voucher.username : ""
+	p= "Tradable: " + voucher.tradable
+	p= "Bundles:" + voucher.characters.map(function(c) { return " " + bundles[c]; })

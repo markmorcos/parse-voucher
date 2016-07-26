@@ -35,7 +35,7 @@ block content
 					label(for="bundles")
 						|Bundles
 					select#bundles.form-control(name="characters[]", multiple="multiple")
-						each bundle in bundles
-							option(value=bundle.id)= bundle.name
+						- for(id in bundles)
+							option(value=id)= bundles[id]
 				p
 					button.btn.btn-success(type="submit") Submit

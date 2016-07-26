@@ -1,6 +1,5 @@
 var express = require("express"),
   ParseServer = require("parse-server").ParseServer,
-  ParseDashboard = require('parse-dashboard'),
   routes = require("./routes"),
   http = require("http"),
   path = require("path"),
@@ -16,6 +15,12 @@ var express = require("express"),
   basicAuth = require("basic-auth-connect");
 
 var app = express();
+
+app.use(function(req, res, next) {
+  req.bundles = bundles;
+  return next();
+});
+
 var authorised = basicAuth(function(username, password) {
 	return username == "testUser" && password == "testPass";
 });
@@ -50,11 +55,6 @@ app.use(session({
 app.use(methodOverride());
 app.use(require("stylus").middleware(__dirname + "/public"));
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use(function(req, res, next) {
-  req.session.bundles = bundles;
-  return next();
-});
 
 if ("development" == app.get("env")) {
   app.use(errorHandler());
@@ -122,7 +122,7 @@ client.onclose = function() {
   console.log("WebSocket Client Closed");
 };
 
-var bundles;
+var bundles = {};
 
 client.onmessage = function(e) {
   if (typeof e.data === "string") {
@@ -139,7 +139,10 @@ client.onmessage = function(e) {
   }
     }
     if (response.method == "setShop") {
-  bundles = response.params.shop.bundles.map(function(bundle) { return { id: bundle.bundleId, name: bundle.headline }; });
+      for (var i = 0; i < response.params.shop.bundles.length; ++i) {
+        var bundle = response.params.shop.bundles[i];
+        bundles[bundle.bundleId] = bundle.headline;
+      }
     }
   }
 };
