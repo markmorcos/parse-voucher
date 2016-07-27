@@ -11,7 +11,7 @@ var express = require("express"),
   methodOverride = require("method-override"),
   errorHandler = require("errorhandler"),
   W3CWebSocket = require("websocket").w3cwebsocket,
-	voucher_codes = require("voucher-code-generator");
+  voucher_codes = require("voucher-code-generator");
   basicAuth = require("basic-auth-connect");
 
 var app = express();
@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
 });
 
 var authorised = basicAuth(function(username, password) {
-	return username == "testUser" && password == "testPass";
+  return username == "testUser" && password == "testPass";
 });
 
 app.use(authorised);
@@ -40,7 +40,7 @@ Parse.initialize("lbolVcK2bDnmvknr7fQeeFXLlnCnYqdYTQsK0sT4");
 
 app.use("/parse", api);
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3051);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(morgan("dev"));
