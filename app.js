@@ -12,7 +12,8 @@ var express = require("express"),
   errorHandler = require("errorhandler"),
   W3CWebSocket = require("websocket").w3cwebsocket,
   voucher_codes = require("voucher-code-generator");
-  basicAuth = require("basic-auth-connect");
+  basicAuth = require("basic-auth-connect"),
+  config = require("./config");
 
 var app = express();
 
@@ -31,12 +32,12 @@ app.locals.appTitle = "Parse Voucher";
 
 var api = new ParseServer({
   databaseURI: "mongodb://zoobe:H3kaWr6F@iad1-c18-0.mongo.objectrocket.com:51224,iad1-c18-1.mongo.objectrocket.com:51224,iad1-c18-2.mongo.objectrocket.com:51224/zoobedev_parse?ssl=true",
-  serverURL: "https://parsehqdev.zoobe.com/parse",
-  appId: "lbolVcK2bDnmvknr7fQeeFXLlnCnYqdYTQsK0sT4",
-  masterKey: "LhimlwumQnhpvtjHc2fbbrcRWZ0zuXrhjY8Cckyf"
+  serverURL: "https://api.parse.com/1", // "https://parsehqdev.zoobe.com/parse",
+  appId: config.appId,
+  masterKey: config.masterKey
 });
 
-Parse.initialize("lbolVcK2bDnmvknr7fQeeFXLlnCnYqdYTQsK0sT4");
+Parse.initialize(config.appId);
 
 app.use("/parse", api);
 
